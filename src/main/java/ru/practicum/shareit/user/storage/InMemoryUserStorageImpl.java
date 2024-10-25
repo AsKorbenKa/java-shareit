@@ -3,8 +3,6 @@ package ru.practicum.shareit.user.storage;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.exception.DuplicatedUserDataException;
@@ -88,10 +86,6 @@ public class InMemoryUserStorageImpl implements InMemoryUserStorage {
                 .filter(u -> email.equals(u.getEmail()))
                 .findFirst();
 
-        if (userInList.isPresent()) {
-            return true;
-        } else {
-            return false;
-        }
+        return userInList.isPresent();
     }
 }
