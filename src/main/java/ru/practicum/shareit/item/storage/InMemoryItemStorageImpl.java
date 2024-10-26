@@ -65,17 +65,17 @@ public class InMemoryItemStorageImpl implements InMemoryItemStorage {
     public Item getItemById(Long userId, Long itemId) {
         log.debug("Получаем данные вещи пользователя по её id.");
         return items.get(userId).stream()
-                .filter(item -> Objects.equals(itemId, item.getId()))
-                .findFirst()
-                .orElseThrow(() -> new ItemNotFoundException("Вещь с id " + itemId + " у пользователя с id " + userId +
-                        " не найдена."));
+                    .filter(itemInMap -> Objects.equals(itemId, itemInMap.getId()))
+                    .findFirst()
+                    .orElseThrow(() -> new ItemNotFoundException("Вещь с id " + itemId + " у пользователя с id " + userId +
+                            " не найдена."));
     }
 
     // Получаем все вещи пользователя
     @Override
     public Collection<Item> getAllUserItems(Long userId) {
         log.debug("Получаем данные о всех вещах пользователя.");
-        return items.get(userId);
+        return items.getOrDefault(userId, new ArrayList<>());
     }
 
     // Ищем вещи, содержащие в названии или описании переданный текст
