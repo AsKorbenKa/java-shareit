@@ -139,10 +139,16 @@ public class ItemServiceImpl implements ItemService {
     }
 
     private LocalDateTime getLastBookingEndDate(Long itemId) {
-        return bookingRepository.findLastBookingEndByItemId(itemId)
+        LocalDateTime localDateTime = bookingRepository.findLastBookingEndByItemId(itemId)
                 .stream()
                 .max(Comparator.naturalOrder())
                 .orElse(null);
+
+        if (localDateTime != null && localDateTime.isAfter(LocalDateTime.now().minusSeconds(5))) {
+            return null;
+        }
+
+        return localDateTime;
     }
 
     private LocalDateTime getNextBookingStartDate(Long itemId) {
