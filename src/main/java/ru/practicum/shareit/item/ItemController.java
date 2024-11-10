@@ -5,12 +5,12 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.shareit.item.dto.CommentDto;
+import ru.practicum.shareit.item.dto.ImprovedItemDto;
 import ru.practicum.shareit.item.dto.ItemDto;
-import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.service.ItemService;
 
 import java.util.Collection;
-
 
 @RestController
 @RequiredArgsConstructor
@@ -20,26 +20,32 @@ public class ItemController {
     ItemService itemService;
 
     @PostMapping
-    public Item create(@RequestHeader("X-Sharer-User-Id") Long userId,
-                       @Valid @RequestBody Item item) {
-        return itemService.create(userId, item);
+    public ItemDto create(@RequestHeader("X-Sharer-User-Id") Long userId,
+                       @Valid @RequestBody ItemDto itemDto) {
+        return itemService.create(userId, itemDto);
+    }
+
+    @PostMapping("/{itemId}/comment")
+    public CommentDto createComment(@RequestHeader("X-Sharer-User-Id") Long userId,
+                          @Valid @RequestBody CommentDto commentDto,
+                          @PathVariable("itemId") Long itemId) {
+        return itemService.createComment(userId, itemId, commentDto);
     }
 
     @PatchMapping("/{itemId}")
-    public Item update(@RequestHeader("X-Sharer-User-Id") Long userId,
+    public ItemDto update(@RequestHeader("X-Sharer-User-Id") Long userId,
                        @PathVariable("itemId") Long itemId,
-                       @Valid @RequestBody ItemDto item) {
+                       @RequestBody ItemDto item) {
         return itemService.update(userId, itemId, item);
     }
 
     @GetMapping("/{itemId}")
-    public Item getItemById(@RequestHeader("X-Sharer-User-Id") Long userId,
-                            @PathVariable("itemId") Long itemId) {
-        return itemService.getItemById(userId, itemId);
+    public ImprovedItemDto getItemById(@PathVariable("itemId") Long itemId) {
+        return itemService.getItemById(itemId);
     }
 
     @GetMapping
-    public Collection<ItemDto> getAllUserItems(@RequestHeader("X-Sharer-User-Id") Long userId) {
+    public Collection<ImprovedItemDto> getAllUserItems(@RequestHeader("X-Sharer-User-Id") Long userId) {
         return itemService.getAllUserItems(userId);
     }
 

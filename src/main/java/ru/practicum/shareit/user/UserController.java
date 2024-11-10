@@ -9,9 +9,6 @@ import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.service.UserService;
 
-/**
- * TODO Sprint add-controllers.
- */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/users")
@@ -20,23 +17,23 @@ public class UserController {
     UserService userService;
 
     @PostMapping
-    public User create(@Valid @RequestBody User user) {
+    public User create(@Valid @RequestBody UserDto user) {
         return userService.create(user);
     }
 
-    @PatchMapping("/{userId}")
-    public User update(@Valid @RequestBody UserDto user,
-                       @PathVariable("userId") Long userId) {
+    @PatchMapping("/{user-id}")
+    public User update(@RequestBody UserDto user,
+                       @PathVariable("user-id") Long userId) {
         return userService.update(userId, user);
     }
 
-    @GetMapping("/{userId}")
-    public User getUserById(@PathVariable("userId") Long userId) {
+    @GetMapping("/{user-id}")
+    public User getUserById(@PathVariable("user-id") Long userId) {
         return userService.getUserById(userId);
     }
 
-    @DeleteMapping("/{userId}")
-    public void delete(@PathVariable("userId") Long userId) {
+    @DeleteMapping("/{user-id}")
+    public void delete(@PathVariable("user-id") Long userId) {
         userService.delete(userId);
     }
 }

@@ -1,34 +1,14 @@
 package ru.practicum.shareit.user.service;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
-import org.springframework.stereotype.Service;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.model.User;
-import ru.practicum.shareit.user.storage.InMemoryUserStorage;
 
-@Service
-@RequiredArgsConstructor
-@Getter
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class UserService {
-    InMemoryUserStorage inMemoryUserStorage;
+public interface UserService {
+    User create(UserDto user);
 
-    public User create(User user) {
-        return inMemoryUserStorage.create(user);
-    }
+    User update(Long userId, UserDto user);
 
-    public User update(Long userId, UserDto user) {
-        return inMemoryUserStorage.update(userId, user);
-    }
+    User getUserById(Long userId);
 
-    public User getUserById(Long userId) {
-        return inMemoryUserStorage.getUserById(userId);
-    }
-
-    public void delete(Long userId) {
-        inMemoryUserStorage.delete(userId);
-    }
+    void delete(Long userId);
 }
