@@ -11,6 +11,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserDto {
+    Long id;
     @NotBlank(message = "Имя пользователя должно быть указано.")
     String name;
     @NotBlank(message = "Email пользователя должен быть указан.")

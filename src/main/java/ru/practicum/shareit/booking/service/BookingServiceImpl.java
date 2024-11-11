@@ -49,17 +49,18 @@ public class BookingServiceImpl implements BookingService {
 
         // Проверяем существует ли предмет
         Item item = isItemExists(bookingDto.getItemId());
+        Booking booking;
 
         if (!item.getAvailable()) {
             throw new ValidationException("Предмет не доступен для бронирования.");
         }
 
-        if (bookingDto.getStart() == bookingDto.getEnd()) {
+        if (bookingDto.getStart().isBefore(bookingDto.getEnd())) {
+            booking = bookingRepository.save(BookingMapper.mapNewRequestToBooking(bookingDto, user, item));
+        } else {
             throw new ValidationException("Дата начала бронирования и дата окончания не могут быть равны.");
         }
-
-        Booking booking = bookingRepository.save(BookingMapper.mapNewRequestToBooking(bookingDto, user, item));
-
+        
         log.debug("Новая бронь была успешно добавлена.");
         return BookingMapper.mapBookingToBookingDto(booking);
     }
