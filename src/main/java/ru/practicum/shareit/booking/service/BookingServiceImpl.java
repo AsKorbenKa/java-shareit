@@ -60,7 +60,6 @@ public class BookingServiceImpl implements BookingService {
         } else {
             throw new ValidationException("Дата начала бронирования и дата окончания не могут быть равны.");
         }
-        
         log.debug("Новая бронь была успешно добавлена.");
         return BookingMapper.mapBookingToBookingDto(booking);
     }
