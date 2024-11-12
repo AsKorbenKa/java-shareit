@@ -1,59 +1,21 @@
 package ru.practicum.shareit.item.service;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
-import org.springframework.stereotype.Service;
+import ru.practicum.shareit.item.dto.CommentDto;
+import ru.practicum.shareit.item.dto.ImprovedItemDto;
 import ru.practicum.shareit.item.dto.ItemDto;
-import ru.practicum.shareit.item.mapper.ItemMapper;
-import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.item.storage.InMemoryItemStorage;
-import ru.practicum.shareit.user.storage.InMemoryUserStorage;
 
 import java.util.Collection;
 
-@Service
-@RequiredArgsConstructor
-@Getter
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class ItemService {
-    InMemoryItemStorage inMemoryItemStorage;
-    InMemoryUserStorage inMemoryUserStorage;
+public interface ItemService {
+    ItemDto create(Long userId, ItemDto itemDto);
 
-    public Item create(Long userId, Item item) {
-        // Проверяем существует ли пользователь
-        inMemoryUserStorage.getUserById(userId);
+    ItemDto update(Long userId, Long itemId, ItemDto itemDto);
 
-        return inMemoryItemStorage.create(userId, item);
-    }
+    ImprovedItemDto getItemById(Long itemId);
 
-    public Item update(Long userId, Long itemId, ItemDto item) {
-        // Проверяем существует ли пользователь
-        inMemoryUserStorage.getUserById(userId);
+    Collection<ImprovedItemDto> getAllUserItems(Long userId);
 
-        return inMemoryItemStorage.update(userId, itemId, item);
-    }
+    Collection<ItemDto> searchItem(String text);
 
-    public Item getItemById(Long userId, Long itemId) {
-        // Проверяем существует ли пользователь
-        inMemoryUserStorage.getUserById(userId);
-
-        return inMemoryItemStorage.getItemById(userId, itemId);
-    }
-
-    public Collection<ItemDto> getAllUserItems(Long userId) {
-        // Проверяем существует ли пользователь
-        inMemoryUserStorage.getUserById(userId);
-
-        return inMemoryItemStorage.getAllUserItems(userId).stream()
-                .map(ItemMapper::itemDtoMapper)
-                .toList();
-    }
-
-    public Collection<ItemDto> searchItem(String text) {
-        return inMemoryItemStorage.searchItem(text).stream()
-                .map(ItemMapper::itemDtoMapper)
-                .toList();
-    }
+    CommentDto createComment(Long userId, Long itemId, CommentDto commentDto);
 }
