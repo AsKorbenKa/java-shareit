@@ -3,6 +3,7 @@ package ru.practicum.shareit.item.model;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.user.model.User;
 
 @Entity
@@ -30,4 +31,9 @@ public class Item {
     @ToString.Exclude
     @JoinColumn(name = "user_id")
     User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @JoinColumn(name = "request_id")
+    ItemRequest request;
 }

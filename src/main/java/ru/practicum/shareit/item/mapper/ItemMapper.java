@@ -4,6 +4,7 @@ import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ImprovedItemDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.user.model.User;
 
 import java.time.LocalDateTime;
@@ -11,21 +12,30 @@ import java.util.List;
 
 public class ItemMapper {
     public static ItemDto mapToItemDto(Item item) {
+        Long requestId;
+
+        if (item.getRequest() != null) {
+            requestId = item.getRequest().getId();
+        } else {
+            requestId = null;
+        }
         return new ItemDto(
         item.getId(),
         item.getUser().getId(),
         item.getName(),
         item.getDescription(),
-        item.getAvailable()
+        item.getAvailable(),
+        requestId
         );
     }
 
-    public static Item mapToItem(ItemDto itemDto, User user) {
+    public static Item mapToItem(ItemDto itemDto, User user, ItemRequest itemRequest) {
         Item item = new Item();
         item.setName(itemDto.getName());
         item.setDescription(itemDto.getDescription());
         item.setAvailable(itemDto.getAvailable());
         item.setUser(user);
+        item.setRequest(itemRequest);
         return item;
     }
 

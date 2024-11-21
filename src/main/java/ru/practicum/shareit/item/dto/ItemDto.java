@@ -19,4 +19,5 @@ public class ItemDto {
     String description;
     @NotNull(message = "Параметр доступности предмета не может быть равен null.")
     Boolean available;
+    Long requestId;
 }

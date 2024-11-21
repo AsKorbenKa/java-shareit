@@ -18,6 +18,8 @@ import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.repository.CommentRepository;
 import ru.practicum.shareit.item.repository.ItemRepository;
+import ru.practicum.shareit.request.model.ItemRequest;
+import ru.practicum.shareit.request.repository.ItemRequestRepository;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
 
@@ -32,25 +34,36 @@ public class ItemServiceImpl implements ItemService {
     UserRepository userRepository;
     BookingRepository bookingRepository;
     CommentRepository commentRepository;
+    ItemRequestRepository itemRequestRepository;
 
     @Autowired
     public ItemServiceImpl(ItemRepository repository,
                            UserRepository userRepository,
                            BookingRepository bookingRepository,
-                           CommentRepository commentRepository) {
+                           CommentRepository commentRepository,
+                           ItemRequestRepository itemRequestRepository) {
         this.itemRepository = repository;
         this.userRepository = userRepository;
         this.bookingRepository = bookingRepository;
         this.commentRepository = commentRepository;
+        this.itemRequestRepository = itemRequestRepository;
     }
 
     @Override
     @Transactional
     public ItemDto create(Long userId, ItemDto itemDto) {
         log.debug("Создаем новую запись о предмете.");
+        ItemRequest itemRequest;
         // Проверяем существует ли пользователь
         User user = isUserExists(userId);
-        Item item = itemRepository.save(ItemMapper.mapToItem(itemDto, user));
+        if (itemDto.getRequestId() != null) {
+            itemRequest = itemRequestRepository.findById(itemDto.getRequestId())
+                    .orElseThrow(() -> new NotFoundException(String.format("Ошибка при добавлении предмета. " +
+                            "Запрос на добавление с id %d не найден.", itemDto.getRequestId())));
+        } else {
+            itemRequest = null;
+        }
+        Item item = itemRepository.save(ItemMapper.mapToItem(itemDto, user, itemRequest));
 
         log.debug("Новая запись о предмете успешно добавлена в базу данных.");
         return ItemMapper.mapToItemDto(item);
