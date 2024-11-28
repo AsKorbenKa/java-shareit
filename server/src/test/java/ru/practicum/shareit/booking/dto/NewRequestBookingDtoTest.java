@@ -10,7 +10,6 @@ import org.springframework.boot.test.json.JsonContent;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @JsonTest
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
@@ -30,9 +29,8 @@ class NewRequestBookingDtoTest {
         JsonContent<NewRequestBookingDto> result = json.write(bookingDto);
 
         assertThat(result).extractingJsonPathNumberValue("$.itemId").isEqualTo(1);
-        assertThat(result).extractingJsonPathStringValue("$.start").isEqualTo(start.toString()
-                .substring(0, 27));
-        assertThat(result).extractingJsonPathStringValue("$.end").isEqualTo(end.toString().substring(0, 27));
+        assertThat(result).extractingJsonPathStringValue("$.start").isEqualTo(start.toString());
+        assertThat(result).extractingJsonPathStringValue("$.end").isEqualTo(end.toString());
     }
 
 }

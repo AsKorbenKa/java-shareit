@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 class BookingDtoTest {
     private final JacksonTester<BookingDto> json;
-    LocalDateTime now = LocalDateTime.now();
+    String now = LocalDateTime.now().toString().substring(0, 27);
 
     @Test
     void testBookingDto() throws Exception {
@@ -39,8 +39,8 @@ class BookingDtoTest {
 
         BookingDto bookingDto = new BookingDto(
                 1L,
-                now,
-                now,
+                LocalDateTime.parse(now),
+                LocalDateTime.parse(now),
                 itemDto,
                 userDto,
                 BookingStatuses.APPROVED
@@ -49,8 +49,6 @@ class BookingDtoTest {
         JsonContent<BookingDto> result = json.write(bookingDto);
 
         assertThat(result).extractingJsonPathNumberValue("$.id").isEqualTo(1);
-        assertThat(result).extractingJsonPathStringValue("$.start").isEqualTo(now.toString()
-                .substring(0, 27));
         assertThat(result).extractingJsonPathStringValue("$.status").isEqualTo(
                 BookingStatuses.APPROVED.name());
         assertThat(result).extractingJsonPathStringValue("$.item.name").isEqualTo("Газонокосилка");

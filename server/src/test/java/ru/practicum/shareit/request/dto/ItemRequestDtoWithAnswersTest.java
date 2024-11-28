@@ -35,8 +35,7 @@ class ItemRequestDtoWithAnswersTest {
         assertThat(result).extractingJsonPathStringValue("$.description")
                 .isEqualTo("Срочно нужна бензопила.");
         assertThat(result).extractingJsonPathNumberValue("$.requester").isEqualTo(11);
-        assertThat(result).extractingJsonPathStringValue("$.created").isEqualTo(localDateTime.toString()
-                .substring(0, 27));
+        assertThat(result).extractingJsonPathStringValue("$.created").isEqualTo(localDateTime.toString());
         assertThat(result).extractingJsonPathArrayValue("$.items").isEqualTo(Collections.emptyList());
     }
 }
