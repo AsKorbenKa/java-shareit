@@ -143,7 +143,7 @@ public class ItemServiceImpl implements ItemService {
 
         // Проверяем бронировал ли этот пользователь эту вещь
         if (!bookingRepository.existsByBookerIdAndItemIdAndEndBefore(userId, itemId,
-                LocalDateTime.now().plusHours(3))) {
+                LocalDateTime.now())) {
             throw new ValidationException(String.format("Ошибка при создании комментария. " +
                     "Пользователь c id %d никогда не бронировал вещь с id %d.", userId, itemId));
         }
@@ -154,8 +154,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     private LocalDateTime getLastBookingEndDate(Long itemId) {
-        LocalDateTime localDateTime = bookingRepository.findLastBookingEndByItemId(itemId,
-                        LocalDateTime.now().plusHours(3))
+        LocalDateTime localDateTime = bookingRepository.findLastBookingEndByItemId(itemId, LocalDateTime.now())
                 .stream()
                 .max(Comparator.naturalOrder())
                 .orElse(null);
@@ -168,7 +167,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     private LocalDateTime getNextBookingStartDate(Long itemId) {
-        return bookingRepository.findNextBookingStartByItemId(itemId, LocalDateTime.now().plusHours(3))
+        return bookingRepository.findNextBookingStartByItemId(itemId, LocalDateTime.now())
                 .stream()
                 .min(Comparator.naturalOrder())
                 .orElse(null);
