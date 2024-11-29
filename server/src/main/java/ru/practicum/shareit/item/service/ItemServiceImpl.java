@@ -125,9 +125,6 @@ public class ItemServiceImpl implements ItemService {
     @Transactional(readOnly = true)
     public Collection<ItemDto> searchItem(String text) {
         log.debug("Ищем предметы по краткому описанию.");
-        if (text == null || text.isBlank()) {
-            return new ArrayList<>();
-        }
         return itemRepository.findAllByText(text).stream()
                 .map(ItemMapper::mapToItemDto)
                 .toList();

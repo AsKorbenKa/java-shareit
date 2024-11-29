@@ -11,6 +11,7 @@ import ru.practicum.shareit.client.BaseClient;
 import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 
+import java.util.Collections;
 import java.util.Map;
 
 @Service
@@ -48,6 +49,10 @@ public class ItemClient extends BaseClient {
     }
 
     public ResponseEntity<Object> searchItem(String text) {
+        if (text.isBlank()) {
+            return ResponseEntity.ok(Collections.emptyList());
+        }
+
         Map<String, Object> parameters = Map.of(
                 "text", text
         );
