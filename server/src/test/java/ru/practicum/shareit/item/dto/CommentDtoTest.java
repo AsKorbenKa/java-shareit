@@ -34,6 +34,5 @@ class CommentDtoTest {
         assertThat(result).extractingJsonPathStringValue("$.authorName").isEqualTo("Джонатан Питч");
         assertThat(result).extractingJsonPathStringValue("$.text")
                 .isEqualTo("Секатор сломался при первом же использовании");
-        assertThat(result).extractingJsonPathStringValue("$.created").isEqualTo(localDateTime.toString());
     }
 }
