@@ -50,3 +50,8 @@ Java, Spring Boot, Spring JPA, PostgreSQL, REST API, Docker, Mockito, JUnit, Lom
     GET /bookings/ - получение бронирований по фильтрам state, from, size
     GET /bookings/owner - получение бронирований пользователя по фильтрам state, from, size
 
+    PATCH /bookings/{bookingId} - обновление данных бронирования
+    PATCH /bookings/{bookingId} - одобрение или отклонение бронирования по параметру approved
+    GET /bookings/{bookingId} - получение данных о бронировании
+    GET /bookings/ - получение бронирований по фильтрам state, from, size
+    GET /bookings/owner - получение бронирований пользователя по фильтрам state, from, size
