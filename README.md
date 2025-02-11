@@ -6,7 +6,7 @@ Java, Spring Boot, Spring JPA, PostgreSQL, REST API, Docker, Mockito, JUnit, Lom
 
 Сервис, который позволяет пользователям рассказывать, какими вещами они готовы поделиться, а также находить нужную вещь и брать её в аренду на какое-то время
 
-![img.png](img.png)
+![Image](https://github.com/user-attachments/assets/81040c51-4abd-4b82-8028-787f62f05080)
 
 Приложение содержит микросервисы:
 
